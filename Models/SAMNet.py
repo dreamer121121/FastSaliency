@@ -35,13 +35,13 @@ class FastSal(nn.Module):
         start = datetime.datetime.now()
         ct_stage1, ct_stage2, ct_stage3, ct_stage4, ct_stage5 = self.context_path(x)
         print('---Time---', datetime.datetime.now()-start)
-        import sys
-        sys.exit(0)
-        print('------ct_stage1----', ct_stage1.size())
-        print('------ct_stage2----', ct_stage2.size())
-        print('------ct_stage3----', ct_stage3.size())
-        print('------ct_stage4----', ct_stage4.size())
-        print('------ct_stage5----', ct_stage5.size())
+        # import sys
+        # sys.exit(0)
+        # print('------ct_stage1----', ct_stage1.size())
+        # print('------ct_stage2----', ct_stage2.size())
+        # print('------ct_stage3----', ct_stage3.size())
+        # print('------ct_stage4----', ct_stage4.size())
+        # print('------ct_stage5----', ct_stage5.size())
 
         # (16, 1/2) (32, 1/4) (64, 1/8)  (96, 1/16) (128, 1/32)
         ct_stage6 = self.pyramid_pooling(ct_stage5)                          # (128, 1/32)
@@ -233,6 +233,7 @@ class PyramidPooling(nn.Module):
         x = self.out(x)
 
         return x
+
 
 if __name__ == '__main__':
     model = FastSal()
