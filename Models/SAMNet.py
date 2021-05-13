@@ -31,7 +31,18 @@ class FastSal(nn.Module):
                 ])
 
     def forward(self, x): # (3, 1)
+        import datetime
+        start = datetime.datetime.now()
         ct_stage1, ct_stage2, ct_stage3, ct_stage4, ct_stage5 = self.context_path(x)
+        print('---Time---', datetime.datetime.now()-start)
+        import sys
+        sys.exit(0)
+        print('------ct_stage1----', ct_stage1.size())
+        print('------ct_stage2----', ct_stage2.size())
+        print('------ct_stage3----', ct_stage3.size())
+        print('------ct_stage4----', ct_stage4.size())
+        print('------ct_stage5----', ct_stage5.size())
+
         # (16, 1/2) (32, 1/4) (64, 1/8)  (96, 1/16) (128, 1/32)
         ct_stage6 = self.pyramid_pooling(ct_stage5)                          # (128, 1/32)
 
@@ -222,3 +233,14 @@ class PyramidPooling(nn.Module):
         x = self.out(x)
 
         return x
+
+if __name__ == '__main__':
+    model = FastSal()
+    model.eval()
+    Input = torch.randn((1,3,352,352))
+    out = model(Input)
+    # from thop import profile, clever_format
+    # flops, params = profile(model, inputs=(Input,))
+    # flops, params = clever_format([flops, params], '%.3f')
+    # print("flops {}, params {}".format(flops, params))
+
